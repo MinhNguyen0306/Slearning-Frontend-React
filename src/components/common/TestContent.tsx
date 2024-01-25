@@ -11,6 +11,11 @@ import chapterApi from '../../api/modules/chapter.api';
 import { setCompletedCoursePopupState } from '../../redux/features/appState/appState.slice';
 import { QuestionType } from '../../types/payload/enums/QuestionType';
 
+interface QuestionAnswered {
+    questionId: string,
+    state: boolean,
+}
+
 const TestContent = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -19,7 +24,8 @@ const TestContent = () => {
     const user = useSelector((state: RootState) => state.user.user);
 
     const [grade, setGrade] = useState<number>(0);
-    const [questionAnswered, setQuestionAnswered] = useState<string[]>([]);
+    console.log(grade)
+    const [questionAnswered, setQuestionAnswered] = useState<QuestionAnswered[]>([]);
 
     const chapterQuery = useQuery({
         queryKey: ['currentChapter', chapterId],
@@ -98,18 +104,35 @@ const TestContent = () => {
     function handleChooseAnwer(questionType: QuestionType, questionId: string, answerId: string) {
         switch(questionType) {
             case 'SINGLE_CHOICE': {
-                if(!questionAnswered.includes(questionId)) setQuestionAnswered(prev => [...prev, questionId])
                 const answerIds = [answerId]
                 const result = chooseAnswerMutation.mutateAsync({questionId: questionId, answerIds: answerIds})
                 result.then(response => {
-                    if(response.response?.data === true) {
-                        toast.success("Đáp án đúng")
-                        setGrade(prev => prev + 1)
-                    } else {
-                        if(questionAnswered?.includes(questionId)) {
-                            setGrade(prev => prev - 1);
+                    const answeredOfQuestion = questionAnswered.find(question => question.questionId === questionId)
+                    if(!answeredOfQuestion) {
+                        if(response.response?.data === true) {
+                            // toast.success("Đáp án đúng")
+                            setQuestionAnswered(prev => [...prev, {questionId, state: true}])
+                            setGrade(prev => prev + 1)
+                        } else {
+                            // toast.error("Đáp án sai")
+                            setQuestionAnswered(prev => [...prev, {questionId, state: false}])
                         }
-                        toast.error("Đáp án sai")
+                    } else {
+                        if(response.response?.data === true) {
+                            // toast.success("Đáp án đúng")
+                            setQuestionAnswered(
+                                prev => [...prev.filter(answer => answer.questionId !== questionId), {questionId, state: true}]
+                            )
+                            setGrade(prev => prev + 1)
+                        } else {
+                            // toast.error("Đáp án sai")
+                            setQuestionAnswered(
+                                prev => [...prev.filter(answer => answer.questionId !== questionId), {questionId, state: false}]
+                            )
+                            if(answeredOfQuestion.state === true) {
+                                setGrade(prev => prev - 1)
+                            }
+                        }
                     }
                 })
                 break;
@@ -124,17 +147,34 @@ const TestContent = () => {
                     }
                 }
                 if(answerIds.length >= 2) {
-                    if(!questionAnswered.includes(questionId)) setQuestionAnswered(prev => [...prev, questionId])
                     const result = chooseAnswerMutation.mutateAsync({questionId: questionId, answerIds: answerIds})
                     result.then(response => {
-                        if(response.response?.data === true) {
-                            toast.success("Đáp án đúng")
-                            setGrade(prev => prev + 1)
-                        } else {
-                            if(questionAnswered?.includes(questionId)) {
-                                setGrade(prev => prev - 1);
+                        const answeredOfQuestion = questionAnswered.find(question => question.questionId === questionId)
+                        if(!answeredOfQuestion) {
+                            if(response.response?.data === true) {
+                                toast.success("Đáp án đúng")
+                                setQuestionAnswered(prev => [...prev, {questionId, state: true}])
+                                setGrade(prev => prev + 1)
+                            } else {
+                                toast.error("Đáp án sai")
+                                setQuestionAnswered(prev => [...prev, {questionId, state: false}])
                             }
-                            toast.error("Đáp án sai")
+                        } else {
+                            if(response.response?.data === true) {
+                                toast.success("Đáp án đúng")
+                                setQuestionAnswered(
+                                    prev => [...prev.filter(answer => answer.questionId !== questionId), {questionId, state: true}]
+                                )
+                                setGrade(prev => prev + 1)
+                            } else {
+                                toast.error("Đáp án sai")
+                                setQuestionAnswered(
+                                    prev => [...prev.filter(answer => answer.questionId !== questionId), {questionId, state: false}]
+                                )
+                                if(answeredOfQuestion.state === true) {
+                                    setGrade(prev => prev - 1)
+                                }
+                            }
                         }
                     })
                 } else {
@@ -143,19 +183,35 @@ const TestContent = () => {
                 break;
             }
             case 'SHORT_ANSWER': {
-                if(!questionAnswered.includes(questionId)) setQuestionAnswered(prev => [...prev, questionId])
-                const answerIds = [answerId]
-                const result = chooseAnswerMutation.mutateAsync({questionId: questionId, shortAnswer: answerId})
-                result.then(response => {
-                    if(response.response?.data === true) {
-                        toast.success("Đáp án đúng")
-                        setGrade(prev => prev + 1)
-                    } else {
-                        if(questionAnswered?.includes(questionId)) {
-                            setGrade(prev => prev - 1);
+                 const result = chooseAnswerMutation.mutateAsync({questionId: questionId, shortAnswer: answerId})
+                    result.then(response => {
+                        const answeredOfQuestion = questionAnswered.find(question => question.questionId === questionId)
+                        if(!answeredOfQuestion) {
+                            if(response.response?.data === true) {
+                                toast.success("Đáp án đúng")
+                                setQuestionAnswered(prev => [...prev, {questionId, state: true}])
+                                setGrade(prev => prev + 1)
+                            } else {
+                                toast.error("Đáp án sai")
+                                setQuestionAnswered(prev => [...prev, {questionId, state: false}])
+                            }
+                        } else {
+                            if(response.response?.data === true) {
+                                toast.success("Đáp án đúng")
+                                setQuestionAnswered(
+                                    prev => [...prev.filter(answer => answer.questionId !== questionId), {questionId, state: true}]
+                                )
+                                setGrade(prev => prev + 1)
+                            } else {
+                                toast.error("Đáp án sai")
+                                setQuestionAnswered(
+                                    prev => [...prev.filter(answer => answer.questionId !== questionId), {questionId, state: false}]
+                                )
+                                if(answeredOfQuestion.state === true) {
+                                    setGrade(prev => prev - 1)
+                                }
+                            }
                         }
-                        toast.error("Đáp án sai")
-                    }
                 })
                 break;
             }

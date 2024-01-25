@@ -18,7 +18,8 @@ const buttonVariants = cva(
         ghost: 'bg-transparent',
         grey: 'bg-gray-300 hover:bg-gray-400',
         green: 'bg-green-900 hover:bg-green-700 text-white',
-        completed: 'bg-green-700 hover:bg-green-600 text-white'
+        completed: 'bg-green-700 hover:bg-green-600 text-white',
+        white: 'bg-white text-gray-950 hover:bg-gray-200'
       },
       size: {
         default: 'px-6 py-2',

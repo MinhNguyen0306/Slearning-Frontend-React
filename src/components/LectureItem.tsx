@@ -15,7 +15,7 @@ const LectureItem = ({ lecture }: { lecture: Lecture }) => {
 
     return (
         <div className='w-full flex justify-between items-center px-3 py-2 cursor-pointer bg-blue-50 rounded-md
-        border-[1px] border-gray-300 hover:bg-blue-100 text-sm gap-x-3'
+        border-[1px] border-gray-300 hover:bg-blue-100 text-sm gap-x-3 text-sm'
         onClick={() => dispatch(setCreateLectureModalOpen({ open: true, lecture: lecture }))}>
             <div className='flex gap-2 justify-start items-center flex-grow'>
                 <div className='cursor-grab rounded-lg p-2 bg-none hover:bg-blue-300'>

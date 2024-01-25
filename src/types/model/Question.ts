@@ -6,6 +6,7 @@ export interface Question {
     id: string,
     question: string,
     questionType: QuestionType,
+    explanation?: string,
     chapter: Chapter,
     answers: Answers
 }

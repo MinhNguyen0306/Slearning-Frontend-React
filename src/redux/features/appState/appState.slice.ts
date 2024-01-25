@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import initialState from "./appState.selector";
-import { AboutModalState, CompletedCoursePopupState, ConfirmModalState, CourseDetailModalState, CreateChapterModalState, CreateLectureModalState, EditQuestionModalState, ReminderModalState, UserDetailModalState } from "../../../types/system/AppStateSlice";
+import { AboutModalState, CompletedCoursePopupState, ConfirmModalState, CourseDetailModalState, CreateChapterModalState, CreateLectureModalState, EditQuestionModalState, ExplanationModalState, ReminderModalState, UserDetailModalState } from "../../../types/system/AppStateSlice";
 
 const appStateSlice = createSlice({
     name: "appState",
@@ -51,6 +51,9 @@ const appStateSlice = createSlice({
         setCourseDetailModalOpen: (state, action: PayloadAction<CourseDetailModalState>) => {
             state.courseDetailModalOpen = action.payload
         },
+        setExplanationModalState: (state, action: PayloadAction<ExplanationModalState>) => {
+            state.explanationModalState = action.payload
+        },
         setConfirmModalOpen: (state, action: PayloadAction<ConfirmModalState>) => {
             state.confirmModalOpen.open = action.payload.open,
             state.confirmModalOpen.message = action.payload.message
@@ -68,6 +71,7 @@ export const {
     setReminderModalOpen,
     setCreateLectureModalOpen,
     setSellerPaymentModalOpen,
+    setExplanationModalState,
     setCreateCategoryModalOpen,
     setCreateChapterModalOpen,
     setUserDetailModalOpen,

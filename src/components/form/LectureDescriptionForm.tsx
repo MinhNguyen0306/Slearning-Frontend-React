@@ -14,10 +14,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { Lecture } from '../../types/model/Lecture';
 import lectureApi from '../../api/modules/lecture.api';
 
-interface Props {
-    sectionId?: string
-}
-
 const LectureDescriptionForm = ({ lecture }: { lecture: Lecture }) => {
     const queryClient = useQueryClient();
     const [isEditting, setIsEditting] = useState<boolean>(false);

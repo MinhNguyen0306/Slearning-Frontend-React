@@ -1,6 +1,6 @@
 import { ChevronRightIcon, HomeIcon, PanelRightCloseIcon } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { setCompletedCoursePopupState, setSidebarExpand } from '../redux/features/appState/appState.slice';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -15,6 +15,7 @@ import CompletedCoursePopup from '../components/popup/CompletedCoursePopup';
 const LearningPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation()
   const queryClient = useQueryClient();
   const { courseId, lectureId } = useParams();
   const { sidebarExpand } = useSelector((state: RootState) => state.appState);
@@ -169,16 +170,14 @@ const LearningPage = () => {
           }
           <div className='flex justify-start items-center gap-2 text-sm'>
             <HomeIcon className='w-5 h-5 stroke-secondColor hover:stroke-blue-800 cursor-pointer'/>
-            {/* <ChevronRightIcon className='stroke-[1px]'/>
-            <span className='text-secondColor hover:underline hover:underline-offset-2 cursor-pointer'>
-              Chapter 1
-            </span>  */}
             <ChevronRightIcon className='stroke-mainColorBold'/>
-            {/* <span>{ learningLectureQuery.data?.title }</span> */}
           </div>
-          <Button rounded='md' disabled={checkCompletedLecture()} onClick={handleCompleteLecture}>
-            { checkCompletedLecture() ? "Đã hoàn thành bài giảng" : "Hoàn thành bài giảng" }
-          </Button>
+          {
+            !pathname.split("/").includes("test") &&
+            <Button rounded='md' disabled={checkCompletedLecture()} onClick={handleCompleteLecture}>
+              { checkCompletedLecture() ? "Đã hoàn thành bài giảng" : "Hoàn thành bài giảng" }
+            </Button>
+          }
         </div>
         {/* End Navigation Bar */}
 

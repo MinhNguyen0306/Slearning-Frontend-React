@@ -98,7 +98,7 @@ const AnswerItem = ({ answer, question }: { answer: Answer, question: Question }
                         />
 
                     }
-                    <label htmlFor={answer.id} className='break-all'>
+                    <label htmlFor={answer.id} className='break-all break-words'>
                         { answerTi ? answerTi : answer.answer }
                     </label>
                 </div>

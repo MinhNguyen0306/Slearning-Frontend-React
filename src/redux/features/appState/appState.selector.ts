@@ -1,4 +1,5 @@
 import { PublishStatus } from "../../../types/payload/enums/PublishStatus";
+import { QuestionType } from "../../../types/payload/enums/QuestionType";
 import { AppStateSlice } from "../../../types/system/AppStateSlice"
 
 const initialState: AppStateSlice = {
@@ -6,6 +7,11 @@ const initialState: AppStateSlice = {
     sidebarExpand: false,
     workExperienceModalOpen: false,
     createCategoryModalOpen: false,
+    explanationModalState: {
+        open: false,
+        questionId: "",
+        explanation: ""
+    },
     completedCoursePopupState: {
         open: false,
         courseId: ""
@@ -27,6 +33,7 @@ const initialState: AppStateSlice = {
                 questions: []
 
             },
+            questionType: QuestionType.SINGLE_CHOICE,
             answers: [],
         }
     },
@@ -83,10 +90,15 @@ const initialState: AppStateSlice = {
             lock: false,
             workExperiences: [],
             userStatus: 'ACTIVE',
-            monthlyPayments: [],
+            adminPayments: [],
             deviceTokens: {
                 id: 0,
                 deviceType: ""
+            },
+            accountBalance: {
+                id: "",
+                userBalance: 0,
+                lastedTransactionDate: ""
             },
             roles: [
                 {

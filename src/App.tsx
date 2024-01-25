@@ -14,6 +14,7 @@ function App() {
   // useEffect(() => {
   //   requestToken()
   // }, [])
+
   useEffect(() => {
     onMessageListener().then((data: any) => {
       console.log("Receive foreground: ", data)

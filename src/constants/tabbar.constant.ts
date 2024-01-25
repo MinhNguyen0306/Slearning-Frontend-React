@@ -2,6 +2,25 @@ import { AdminFetchCourseState } from "../types/payload/enums/AdminFetchCourseSt
 import { AdminFetchUserState } from "../types/payload/enums/AdminFetchUserState";
 import { Tabbar, TabbarItemLectureContent } from "../types/ui/Tabbar";
 
+const mentorCodingTabbar: Tabbar = [
+    {
+        
+        path: "/instructor/courses/:id/coding-exercise/:quizId/choose-language",
+        display: "Ngôn ngữ",
+        state: "instructor.coding-exercise.choose-language"
+    },
+    {
+        path: "/instructor/courses/:id/coding-exercise/:quizId/author-solution",
+        display: "Giải pháp",
+        state: "instructor.coding-exercise.author-solution"
+    },
+    {
+        path: "/instructor/courses/:id/coding-exercise/:quizId/guide-learners",
+        display: "Hướng dẫn người học",
+        state: "instructor.coding-exercise.guide-learners"
+    },
+]
+
 const learnerInfoTabbar: Tabbar = [
     {
         path: "/learner/profile",
@@ -146,5 +165,6 @@ export const tabbar = {
     lectureContentTabs, 
     adminManageUsers, 
     adminManageCourses,
-    adminManagePayment
+    adminManagePayment,
+    mentorCodingTabbar
 }

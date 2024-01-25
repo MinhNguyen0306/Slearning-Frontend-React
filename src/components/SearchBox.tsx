@@ -46,25 +46,30 @@ const SearchBox = () => {
       }
   }, [visible])
 
-  useEffect(() => {
-    function search(event: Event) {
-      const e = event as KeyboardEvent
-      if(e.key === 'Enter') {
-        navigate(`/search?q=${searchKey}`)
-      }
-    }
+  // useEffect(() => {
+  //   function search(event: Event) {
+  //     const e = event as KeyboardEvent
+  //     if(e.key === 'Enter') {
+  //       navigate(`/search?q=${searchKey}`)
+  //     }
+  //   }
 
-    document.addEventListener('keyup', search)
-    return () => {
-      document.removeEventListener('keyup', search)
-    }
-  }, [searchKey])
+  //   document.addEventListener('keyup', search)
+  //   return () => {
+  //     document.removeEventListener('keyup', search)
+  //   }
+  // }, [searchKey])
 
   return (
     <div id="searchBox" ref={searchHintRef} className='relative flex-1 h-[45px] flex items-center border-[1px] border-black rounded-3xl text-sm'>
-        <div className="w-full h-full outline-none border-none bg-white rounded-[inherit]">
+        <form
+          action="/search"
+          className="w-full h-full outline-none border-none bg-white rounded-[inherit]"
+        >
           <input 
             type="text"
+            name="q"
+            id="q"
             placeholder='Nhap gi do di...' 
             className='w-full h-full outline-none border-none placeholder-slate-400
             bg-white rounded-[inherit] pr-[55px] pl-5 py-1' 
@@ -72,7 +77,7 @@ const SearchBox = () => {
             value={searchKey}
             onChange={(e) => setSearchKey(e.target.value)}
           />
-        </div>
+        </form>
         <div className='absolute w-[45px] h-full right-0 top-1/2 -translate-y-1/2 flex items-center justify-center 
         text-gray-500 rounded-r-3xl before:h-1/2 before:w-[1px] before:bg-gray-500 before:absolute before:right-[45px]
         hover:bg-gray-100 hover:text-gray-400 cursor-pointer'>

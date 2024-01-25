@@ -11,9 +11,6 @@ import { courseIntroduceSchema, CourseIntroduceSchema } from '../../types/system
 import { useMutation, useQueryClient } from 'react-query';
 import courseApi from '../../api/modules/course.api';
 import { Tooltip } from 'react-tooltip';
-import { requestToken } from '../../firebase';
-import { Notice } from '../../types/model/Notice';
-import notificationApi from '../../api/modules/notification.api';
 
 const CourseIntroduceForm = ({ introduce, courseId }: { courseId: string , introduce: string }) => {
     const queryClient = useQueryClient();
@@ -30,21 +27,6 @@ const CourseIntroduceForm = ({ introduce, courseId }: { courseId: string , intro
                 setIsEditting(false);
                 queryClient.invalidateQueries("courseCreating")
                 toast.success("Đã cập nhật giới thiệu")
-                requestToken().then(token => {
-                    console.log(token)
-                    const notice: Notice = {
-                        title: "Xuất bản khóa học",
-                        topic: courseId,
-                        content: "Dat dang ky",
-                        imageUrl: "",
-                        deviceTokens: [String(token?.trim())]
-                    }
-                    notificationApi.sendNotification(notice, "http://127.0.0.1:5173/learner/profile")
-                    .then((response) => {
-                        console.log(response)
-                    })
-                    .catch(error => console.log(error))
-                }).catch((error) => console.log(error))
             } else {
                 toast.error(data.error.message)
             }

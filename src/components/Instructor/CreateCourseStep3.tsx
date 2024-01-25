@@ -5,6 +5,7 @@ import courseApi from '../../api/modules/course.api';
 import { toast } from 'react-toastify';
 import QuestionChapterItem from '../QuestionChapterItem';
 import EditQuestionModal from '../modal/EditQuestionModal';
+import ExplanationModal from '../modal/ExplanationModal';
 
 const CreateCourseStep3 = () => {
     const params = useParams();
@@ -33,6 +34,7 @@ const CreateCourseStep3 = () => {
     return (
         <>
             <EditQuestionModal />
+            <ExplanationModal />
             <div className='w-full min-h-[20vh] rounded-sm shadow-md shadow-gray-300 bg-white p-5 my-10
             flex flex-col'>
                 <div className='flex justify-between items-center'>

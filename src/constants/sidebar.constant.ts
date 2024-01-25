@@ -15,10 +15,10 @@ import {
 
 const instructorSidebarList: SidebarList = [
     {
-        display: "Thông tin cá nhân",
-        icon: UserIcon,
-        path: "/instructor/profile",
-        state: "instructor.profile"
+        display: "Học viên",
+        icon: UsersIcon,
+        path: "/instructor/students",
+        state: "instructor.students"
     },
     {
         display: "Thống kê",

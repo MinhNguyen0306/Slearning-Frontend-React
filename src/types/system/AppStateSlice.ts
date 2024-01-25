@@ -39,6 +39,12 @@ export type ConfirmModalState = {
     message: string
 }
 
+export type ExplanationModalState = {
+    open: boolean,
+    questionId: string,
+    explanation: string
+}
+
 export type EditQuestionModalState = {
     open: boolean,
     question: Question
@@ -65,4 +71,5 @@ export type AppStateSlice = {
     courseDetailModalOpen: CourseDetailModalState,
     confirmModalOpen: ConfirmModalState,
     completedCoursePopupState: CompletedCoursePopupState,
+    explanationModalState: ExplanationModalState
 }

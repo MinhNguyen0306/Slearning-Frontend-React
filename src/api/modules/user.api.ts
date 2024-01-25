@@ -13,9 +13,11 @@ import { isAxiosError } from "../../util/utils";
 import { AdminFetchUserState } from "../../types/payload/enums/AdminFetchUserState";
 import { AdminFetchCourseState } from "../../types/payload/enums/AdminFetchCourseState";
 import { Course } from "../../types/model/Course";
+import { UserEnrollsResponse } from "../../types/model/UserEnrollsResponse";
 
 const userEndpoints = {
     getAll: 'users',
+    getStudentsOfMentor: '/users/student-of-mentor',
     filterUserByStatus: 'users/status',
     getUsersByAdminFetchState: 'users/fetch-state',
     getCoursesByAdminFetchState: 'courses/fetch-state',
@@ -33,9 +35,31 @@ const userEndpoints = {
 const userApi = {
     getAll: async (pageRequest?: PageRequest) => {
         try {
-            const response = await publicClient.get<PageResponse<User>>(
+            const response = await privateClient.get<PageResponse<User>>(
                 userEndpoints.getAll,
                 { params: pageRequest }
+            )
+
+            return { response };
+        } catch (error) {
+            if(axios.isAxiosError<ApiErrorResponse>(error)) {
+                return { error }
+            }  else {
+                throw new Error("System error")
+            }
+        }
+    },
+
+    getStudentsOfMentor: async (mentorId: string, pageRequest?: PageRequest) => {
+        try {
+            const response = await publicClient.get<PageResponse<UserEnrollsResponse>>(
+                userEndpoints.getStudentsOfMentor,
+                { 
+                    params: {
+                        pageRequest, 
+                        mentorId
+                    } 
+                }
             )
 
             return { response };

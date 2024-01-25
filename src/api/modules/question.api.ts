@@ -8,6 +8,7 @@ import privateClient from "../config/private.client";
 import publicClient from "../config/public.client";
 
 const questionEndpoints = {
+    addExplanation: (questionId: string) => `/questions/${questionId}/add/explanation`,
     getById: (questionId: string) => `/questions/${questionId}`,
     getAnswerById: (answerId: string) => `/questions/answers/${answerId}`,
     create: "questions",
@@ -21,6 +22,25 @@ const questionEndpoints = {
 }
 
 const questionApi = {
+    addExplanation: async (questionId: string, explanation: string) => {
+        try {
+            const response = await privateClient.patch<string>(
+                questionEndpoints.addExplanation(questionId),
+                null, {
+                    params: { explanation }
+                }
+            )
+
+            return { response }
+        } catch (error) {
+            if(isAxiosError<ApiErrorResponse>(error)) {
+                return { error }
+            } else {
+                throw new Error("System error")
+            }
+        }
+    },
+
     getById: async (questionId: string) => {
         try {
             const response = await publicClient.get<Question>(

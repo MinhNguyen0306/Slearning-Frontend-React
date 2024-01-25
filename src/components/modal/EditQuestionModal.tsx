@@ -15,6 +15,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import questionApi from "../../api/modules/question.api";
 import { Button } from "../Button";
 import { EditQuestionSchema, editQuestionSchema } from "../../types/zod/EditQuestionSchema";
+import ReactQuill from "react-quill";
 
 const EditQuestionModal = () => {
     const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const EditQuestionModal = () => {
             if(data.response) {
                 toast.success("Đã thêm câu trả lời")
                 queryClient.invalidateQueries("questionEditting")
+                queryClient.invalidateQueries("courseCreating")
             }
             if(data.error) toast.error(data.error.response?.data.errorMessage ?? "Thêm câu trả lời thất bại")
         },
@@ -77,6 +79,7 @@ const EditQuestionModal = () => {
             if(data.response) {
                 toast.success("Đã sửa câu hỏi")
                 queryClient.invalidateQueries("questionEditting")
+                queryClient.invalidateQueries("courseCreating")
             }
             if(data.error) toast.success(data.error.response?.data.errorMessage ?? "Sửa câu hỏi thất bại")
         },
@@ -106,18 +109,18 @@ const EditQuestionModal = () => {
                 <div className='h-screen w-screen fixed z-[99999] top-0 left-0 bg-gray-800 bg-opacity-50
                     grid place-items-center overflow-hidden'>
                     <div className='w-1/3 m-auto bg-white rounded-md border-[1px] border-gray-300 flex flex-col
-                    justify-center items-center gap-2'>
+                    justify-start items-center gap-2 overflow-y-scroll'>
                         <div className="self-end pt-2 pr-2 cursor-pointer">
                             <XCircleIcon className="hover:stroke-red-600" onClick={handleClose}/>
                         </div>
-        
-                        <div className="flex flex-col gap-2 overflow-y-auto scrollbar-hide w-full p-5">
+
+                        <div className="p-5 flex flex-col gap-2 overflow-y-auto scrollbar-hide w-full">
                             <div className="w-full h-16 bg-sky-100 rounded-md grid place-items-center px-8">
                                 {
                                     isEditQuestion
                                         ?   
                                         <form onSubmit={handleSubmit(onSubmitQuestion)} className="w-full flex justify-between items-center gap-x-1">
-                                             <input
+                                            <input
                                                 {...register('question')}
                                                 data-tooltip-id='question'
                                                 data-tooltip-content={ errors.question?.message }
@@ -126,7 +129,7 @@ const EditQuestionModal = () => {
                                                 disabled={isSubmitting}
                                                 autoComplete="off"
                                                 className='flex-1 w-full py-2 px-5 outline-none border-[1px] border-gray-500
-                                                 rounded-md'
+                                                rounded-md'
                                                 
                                             />
                                             <Tooltip id='question'/>
@@ -150,7 +153,9 @@ const EditQuestionModal = () => {
                                             </div>
                                         </form>
                                         :   <div className="flex items-center justify-center gap-x-3 font-semibold text-lg">
-                                                <span>{ questionQuery.data?.question }</span>
+                                                <span className="break-words break-all">
+                                                    { questionQuery.data?.question }
+                                                </span>
                                                 <div 
                                                     className="w-8 h-8 rounded-full hover:bg-slate-300 grid place-items-center cursor-pointer"
                                                     onClick={handleEditQuestion}
@@ -207,6 +212,16 @@ const EditQuestionModal = () => {
                                 </div>
                             </Button>
                         </div>
+                        {/* <div className="py-5 gap-x-3 px-2">
+                            <div className="col-span-1 flex flex-col justify-start">
+                                <h2 className="font-semibold text-center mb-2 text-lg">Giải thích cho câu hỏi</h2>
+                                <ReactQuill 
+                                    theme='snow' 
+                                    placeholder='Nhập vào' 
+                                    className='mb-4'
+                                />
+                            </div>
+                        </div> */}
                     </div>
                 </div> 
             }

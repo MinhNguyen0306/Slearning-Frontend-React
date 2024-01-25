@@ -1,7 +1,7 @@
 import { AccountBalance } from "./AccountBalance"
 import { Courses } from "./Course"
 import { ImageStorage } from "./ImageStorage"
-import { monthlyPayment } from "./AdminPayment"
+import { AdminPayment } from "./AdminPayment"
 import { Payments } from "./Payment"
 import { Progress } from "./Progress"
 import { Roles } from "./Role"
@@ -26,7 +26,7 @@ export type User = {
     courses?: Courses,
     accountBalance: AccountBalance,
     payments?: Payments,
-    monthlyPayments: monthlyPayment[],
+    adminPayments: AdminPayment[],
     progresses?: Progress[],
     create_at?: Date,
     update_at?: Date,

@@ -6,7 +6,7 @@ import NotHeaderLayout from "../layouts/NotHeaderLayout";
 import ErrorPage from "../pages/ErrorPage";
 import InfomationPage from "../pages/InfomationPage";
 import ProfilePage from "../pages/ProfilePage";
-import InstructorProfilePage from "../pages/instructor/ProfilePage"; 
+import StudentPage from "../pages/instructor/StudentPage"; 
 import MyLearningPage from "../pages/MyLearningPage";
 import PurchasesPage from "../pages/PurchasesPage";
 import InstructorLayout from "../layouts/InstructorLayout";
@@ -30,8 +30,6 @@ import AdvertisementAcceptedPage from "../components/Instructor/AdvertisementAcc
 import AdvertisementHistoryPage from "../components/Instructor/AdvertisementHistory";
 import AdvertisementPackagePage from "../pages/instructor/AdvertisementPackagePage";
 import AddInfoAdsPage from "../pages/instructor/AddInfoAdsPage";
-import SigninPage from "../components/auth/SigninForm";
-import SignupPage from "../components/auth/SignupForm";
 import AuthPage from "../pages/auth/AuthPage";
 import AdminLayout from "../layouts/AdminLayout";
 import UsersPage from "../pages/admin/users/UsersPage";
@@ -50,6 +48,11 @@ import VideoContent from "../components/common/VideoContent";
 import TestContent from "../components/common/TestContent";
 import AdminPaymentPage from "../pages/admin/payments/AdminPaymentPage";
 import AdminStatisticPage from "../pages/admin/statistic/AdminStatisticPage";
+import CodingExercisePage from "../pages/main/CodingExercisePage";
+import CreateExerciseLayout from "../layouts/CreateExerciseLayout";
+import AuthorSolution from "../pages/instructor/create-coding/AuthorSolution";
+import ChooseLanguage from "../pages/instructor/create-coding/ChooseLanguage";
+import GuideLeaners from "../pages/instructor/create-coding/GuideLeaners";
 
 type Route = {
     path: string,
@@ -97,6 +100,12 @@ const routes: Route[] = [
         layout: <LearnerLayout />,
         element: <SearchPage />,
         state: "search"
+    },
+    {
+        path: "/learning/courses/:courseId/coding-exercise/:exId",
+        layout: <LearnerLayout />,
+        element: <CodingExercisePage />,
+        state: "courses.coding",
     },
     {
         path: "/courses/:id",
@@ -262,13 +271,13 @@ const routes: Route[] = [
         ]
     },
     {
-        path: "/instructor/profile",
+        path: "/instructor/students",
         layout: <InstructorLayout />,
         element: 
             <ProtectedPage allowedRoles={[ROLES.MENTOR]}>
-                <InstructorProfilePage />
+                <StudentPage />
             </ProtectedPage>,
-        state: "instructor.profile",
+        state: "instructor.students",
     },
     {
         path: "/instructor/orders",
@@ -318,6 +327,33 @@ const routes: Route[] = [
                 state: "courses.create.4"
             },
         ]
+    },
+    {
+        path: "/instructor/courses/:id/coding-exercise/:quizId/choose-language",
+        layout: <CreateExerciseLayout />,
+        element: 
+            <ProtectedPage allowedRoles={[ROLES.MENTOR]}>
+                <ChooseLanguage />
+            </ProtectedPage>,
+        state: "instructor.coding-exercise.choose-language"
+    },
+    {
+        path: "/instructor/courses/:id/coding-exercise/:quizId/author-solution",
+        layout: <CreateExerciseLayout />,
+        element: 
+            <ProtectedPage allowedRoles={[ROLES.MENTOR]}>
+                <AuthorSolution />
+            </ProtectedPage>,
+        state: "instructor.coding-exercise.author-solution"
+    },
+    {
+        path: "/instructor/courses/:id/coding-exercise/:quizId/guide-learners",
+        layout: <CreateExerciseLayout />,
+        element: 
+            <ProtectedPage allowedRoles={[ROLES.MENTOR]}>
+                <GuideLeaners />
+            </ProtectedPage>,
+        state: "instructor.coding-exercise.guide-learners"
     },
     {
         path: "/instructor/courses/create/draft",
